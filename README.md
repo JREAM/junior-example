@@ -1,7 +1,7 @@
 Junior Example
 --
 
--**Demo:** [https://junior-example.vercel.app](https://junior-example.vercel.app)
+- **Demo:** [https://junior-example.vercel.app](https://junior-example.vercel.app)
 
 - **Description**
 - 1 Page

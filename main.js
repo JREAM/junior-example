@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Remove Loader
       divContainer.innerHTML = '';
 
-      console.log(json)
-
       // Iterate Data
       for (const key in json) {
 
@@ -71,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
 
-
         divUserList.appendChild(a)
         divUserList.appendChild(divPostData)
 
@@ -82,6 +79,3 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Error with Fetch Request', error)
     });
 })
-
-// Get Posts for User:
-// https://jsonplaceholder.typicode.com/posts?userId=1
