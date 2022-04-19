@@ -12,10 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Container for Data
   const divContainer = document.querySelector('#fetch-content');
 
+  // Loader
+  divContainer.innerHTML='<div class="fetch-loader"></div>';
+
   // Get Users, the Basis for Related Posts (Not Including Exception on Fetch Error)
   fetch('https://jsonplaceholder.typicode.com/users')
     .then(response => response.json())
     .then(json => {
+
       // Remove Loader
       divContainer.innerHTML = '';
 
@@ -40,38 +44,49 @@ document.addEventListener('DOMContentLoaded', () => {
         // <a> - Add Event Listener
         a.addEventListener('click', function (event) {
           event.preventDefault();
-          // Dont Fetch Twice (Yeah, I could remove event listener)
-          if (inArray(this.dataset.userId, userIdPostsLoaded)>=0) {
+
+          // User ID
+          const userId=this.dataset.userId
+
+          // Dont Fetch Twice
+          if (inArray(userId, userIdPostsLoaded)>=0) {
             return;
           }
 
-          userIdPostsLoaded.push(this.dataset.userId);
-          const userId = event.target.dataset.userId
+          userIdPostsLoaded.push(userId);
 
+          // Post Container
           const divPostData=document.querySelector(`div[data-user-id='${userId}']`);
 
+          // Loader
+          divPostData.innerHTML='<div class="fetch-loader"></div>';
+
           fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
-            .then(response => response.json())
-            .then(json => {
-              console.log(json)
-              // Iterate Posts, Just List the Titles
-              // divPostData.innerHTML = '' // Clear Previous Data
-              console.log(divPostData)
-              const ul = document.createElement('ul');
-              for (const key in json) {
-                console.log(json[key].title)
-                // <li> Create Post Title
-                const li = document.createElement('li');
-                li.textContent=json[key].title;
-                ul.appendChild(li);
-              }
-              divPostData.appendChild(ul)
-            })
+          .then(response => response.json())
+          .then(json => {
+
+            // Remove Loader
+            divPostData.innerHTML=''
+
+            // <ul> List Post Titles
+            const ul = document.createElement('ul');
+
+            // Iterate Posts, Just List the Titles
+            for (const key in json) {
+              console.log(json[key].title)
+
+              // <li> Post Title
+              const li = document.createElement('li');
+              li.textContent=json[key].title;
+              ul.appendChild(li);
+            }
+
+            divPostData.appendChild(ul)
+          })
         })
 
         divUserList.appendChild(a)
         divUserList.appendChild(divPostData)
-
         divContainer.appendChild(divUserList)
       }
 
